@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "artiweb",
+    "slug": "artiweb",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "artiweb"
+}
