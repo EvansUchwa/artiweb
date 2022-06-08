@@ -17,8 +17,7 @@ export default function SplashScreen() {
                 source={
                     require('./assets/images/logo.webp')
                 } />
-
-            <Text style={styles.textAbsolute}>Artiweb</Text>
+            <Text style={styles.textabsolute}>Artiweb</Text>
         </View>
     );
 }
@@ -28,26 +27,28 @@ const stylesImage = StyleSheet.create({
         paddingTop: 50,
     },
     tinyLogo: {
-        width: 50,
-        height: 50,
+        width: 100,
+        height: 100
     },
     logo: {
         width: 66,
-        height: 58,
-    },
+        height: 58
+    }
 });
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: "100%",
         backgroundColor: '#f44336',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    textAbsolute: {
+    textabsolute: {
         position: "absolute",
-        bottom: "20px",
+        bottom: 20,
         color: "white",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontSize: 50
     }
 });
