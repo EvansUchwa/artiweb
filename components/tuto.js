@@ -1,50 +1,37 @@
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import Slider from "react-slick";
-import sliderStyles from "../assets/slick/slick.css"
-function Tuto() {
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1
-    };
-    return (
-        <View style={styles.sliderDiv}>
-            <View>
-                <h2> Single Item</h2>
-                <Slider {...settings}>
-                    <View>
-                        <Text>1</Text>
-                    </View>
-                    <View>
-                        <Text>2</Text>
-                    </View>
-                    <View>
-                        <Text>3</Text>
-                    </View>
-                    <View>
-                        <Text>4</Text>
-                    </View>
-                    <View>
-                        <Text>5</Text>
-                    </View>
-                    <View>
-                        <Text>6</Text>
-                    </View>
-                </Slider>
-            </View>
-        </View>
-    )
+import React, { useState } from 'react'
+import { View } from "react-native"
+import Carousel from 'react-native-snap-carousel'
+import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
+import data from './data'
+import { Pagination } from 'react-native-snap-carousel'
+
+const Tuto = () => {
+  const isCarousel = React.useRef(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "white" }}>
+      <Carousel
+        layout="default"
+        layoutCardOffset={9}
+        ref={isCarousel}
+        data={data}
+        renderItem={CarouselCardItem}
+        sliderWidth={SLIDER_WIDTH}
+        itemWidth={ITEM_WIDTH}
+        inactiveSlideShift={0}
+        useScrollView={true}
+        onSnapToItem={(index) => setCurrentSlide(index)}
+      // loop={true}
+      />
+      <Pagination
+        dotsLength={data.length}
+        activeDotIndex={currentSlide}
+        carouselRef={isCarousel}
+
+      />
+    </View>
+  )
 }
-
-
-const styles = StyleSheet.create({
-    sliderDiv: {
-        width: 400,
-        backgroundColor: "yellow"
-    }
-});
 
 export default Tuto

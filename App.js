@@ -4,14 +4,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
 import SplashScreen from './SplashScreen';
 import WebView from 'react-native-webview';
-import { SafeAreaView } from 'react-native-web';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Tuto from './components/tuto';
-import "./assets/slick/slick.css"
-import "./assets/slick/slick-theme.css"
+import useTuto from './hooks/useTuto';
 
 
-const storeDataToLocal = async (key, value) => {
+export const storeDataToLocal = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value)
   } catch (e) {
@@ -28,26 +26,37 @@ const getDataOnLocal = async (key) => {
   }
 }
 
+async function removeItemValue(key) {
+  try {
+    await AsyncStorage.removeItem(key);
+    return true;
+  }
+  catch (exception) {
+    return false;
+  }
+}
+
 
 
 export default function App() {
   const [splash, setSplash] = useState(false);
-  const [tuto, setTuto] = useState(false);
+  const { tuto, setTheTuto } = useTuto();
   const [appView, setAppView] = useState(<SplashScreen />)
 
   useEffect(() => {
+    // removeItemValue('tuto')
     setTimeout(() => {
       getDataOnLocal('tuto')
-        .then(res => setTuto(res))
+        .then(res => setTheTuto(res))
       setSplash(true)
     }, 3000);
 
-  }, [])
+  }, [tuto])
 
   if (!splash) {
     return <SplashScreen />
   } else if (splash && tuto) {
-    return <View>
+    return <View style={{ backgroundColor: "red" }}>
       <Text>
         Notre application sans tuto
       </Text>
