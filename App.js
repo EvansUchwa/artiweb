@@ -9,18 +9,15 @@ export default function App() {
   const [splash, setSplash] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => setSplash(true), 3000)
+    // setTimeout(() => setSplash(true), 3000)
   }, [])
 
-  if (!splash) {
-    return <SplashScreen />
+  // if (!splash) {
+  //   return <SplashScreen />
 
-  }
+  // }
   return (
-    <WebView source={{
-      uri: 'https://mon.artiweb.app'
-    }}
-      style={{ marginTop: 20 }} />
+    <SplashScreen />
   );
 }
 
