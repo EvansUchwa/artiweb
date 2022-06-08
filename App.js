@@ -4,10 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
 import SplashScreen from './SplashScreen';
 import WebView from 'react-native-webview';
+import { SafeAreaView } from 'react-native-web';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Tuto from './components/tuto';
-import useTuto from './hooks/useTuto';
-
 
 export const storeDataToLocal = async (key, value) => {
   try {
@@ -40,14 +39,14 @@ async function removeItemValue(key) {
 
 export default function App() {
   const [splash, setSplash] = useState(false);
-  const { tuto, setTheTuto } = useTuto();
+  const [tuto, setTuto] = useState(false);
   const [appView, setAppView] = useState(<SplashScreen />)
 
   useEffect(() => {
     // removeItemValue('tuto')
     setTimeout(() => {
       getDataOnLocal('tuto')
-        .then(res => setTheTuto(res))
+        .then(res => setTuto(res))
       setSplash(true)
     }, 3000);
 
