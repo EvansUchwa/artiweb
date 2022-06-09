@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { View } from "react-native"
 import Carousel from 'react-native-snap-carousel'
-import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
-import data from './data'
+import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from '../components/CarouselCardItem'
+import data from '../components/data'
 import { Pagination } from 'react-native-snap-carousel'
+import { Button } from 'react-native'
+import { storeDataToLocal } from '../utils/localStorage'
 
-const Tuto = () => {
+const Tuto = ({ navigation }) => {
   const isCarousel = React.useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -24,13 +26,26 @@ const Tuto = () => {
         onSnapToItem={(index) => setCurrentSlide(index)}
       // loop={true}
       />
+      <View>
+        {
+          currentSlide === 2 && <Button title="terminé"
+            onPress={() => {
+              storeDataToLocal('Tuto', 'fait')
+              navigation.navigate('Home')
+            }}></Button>
+        }
+      </View>
       <Pagination
         dotsLength={data.length}
         activeDotIndex={currentSlide}
         carouselRef={isCarousel}
 
       />
+
+
     </View>
+
+
   )
 }
 

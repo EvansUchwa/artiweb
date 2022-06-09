@@ -1,8 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+import { useEffect } from 'react';
+import { getDataOnLocal } from '../utils/localStorage';
 
-export default function SplashScreen() {
+export default function SplashScreen({ navigation }) {
+
+    useEffect(() => {
+        // removeItemValue('tuto')
+        setTimeout(() => {
+            getDataOnLocal('tuto')
+                .then(res => {
+                    // options={{ headerShown: false }}
+                    if (res) {
+                        navigation.navigate('Home')
+                    } else {
+                        navigation.navigate('Tuto')
+                    }
+                })
+        }, 3000);
+
+    }, [])
+
+
     return (
         <View style={styles.container}>
             {/* <Image
@@ -15,7 +34,7 @@ export default function SplashScreen() {
             <Image
                 style={stylesImage.tinyLogo}
                 source={
-                    require('./assets/images/logo.webp')
+                    require('../assets/images/logo.webp')
                 } />
             <Text style={styles.textabsolute}>Artiweb</Text>
         </View>
