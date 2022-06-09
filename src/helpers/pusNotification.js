@@ -19,10 +19,9 @@ export async function requestUserPermission() {
 
 async function GetFCMToke() {
     let fcmToken = await getDataOnLocal('fcmToken');
-    console.log(fcmToken)
     try {
         if (!fcmToken) {
-            fcmToken = messaging().getToken();
+            fcmToken = await messaging().getToken();
             storeDataToLocal('fcmToken', fcmToken)
         }
     } catch (error) {
