@@ -1,18 +1,41 @@
+import { Image } from "react-native";
+
 const data = [
   {
-    title: "Aenean leo",
-    body: "Ut tincidunt tincidunt erat. Sed cursus turpis vitae tortor. Quisque malesuada placerat nisl. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.",
-    imgUrl: "https://picsum.photos/id/11/200/300",
+    title: "Accédez aux outils",
+    body: "Outils de productivité, par les artisans , pour les artisans",
+    image: <Image
+      source={require("../assets/images/tuto1.png")}
+      style={{
+        width: 150,
+        height: 150,
+        margin: "auto"
+      }}
+    />,
   },
   {
-    title: "In turpis",
-    body: "Aenean ut eros et nisl sagittis vestibulum. Donec posuere vulputate arcu. Proin faucibus arcu quis ante. Curabitur at lacus ac velit ornare lobortis. ",
-    imgUrl: "https://picsum.photos/id/10/200/300",
+    title: "Gérez vos notes",
+    body: "Organise tes idées et ton journal 24/7 pour éviter des oublies ",
+    image: <Image
+      source={require("../assets/images/tuto2.png")}
+      style={{
+        width: 150,
+        height: 150,
+        margin: "auto"
+      }}
+    />,
   },
   {
-    title: "Lorem Ipsum",
-    body: "Phasellus ullamcorper ipsum rutrum nunc. Nullam quis ante. Etiam ultricies nisi vel augue. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc.",
-    imgUrl: "https://picsum.photos/id/12/200/300",
+    title: "Gérez vos projets",
+    body: "Planifie tes actions et sois productif avec éfficacité",
+    image: <Image
+      source={require("../assets/images/tuto3.png")}
+      style={{
+        width: 150,
+        height: 150,
+        margin: "auto"
+      }}
+    />,
     ending: true
   },
 ];

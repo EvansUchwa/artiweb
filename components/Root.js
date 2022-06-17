@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import { Button } from "react-native-web";
 import Home from "../routes/home";
-import SplashScreen from "../routes/splashScreen";
 import Tuto from "../routes/tuto";
 const Stack = createStackNavigator();
 
@@ -23,7 +22,6 @@ function RedirectToPage({ navigation }) {
 function Root() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             <Stack.Screen name="Tuto" component={Tuto} options={{ headerShown: false }} />
 

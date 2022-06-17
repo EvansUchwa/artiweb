@@ -1,17 +1,16 @@
 import React from 'react'
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native"
 
-export const SLIDER_WIDTH = Dimensions.get('window').width + 80
+export const SLIDER_WIDTH = Dimensions.get('window').width + 100
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7)
 
 const CarouselCardItem = ({ item, index }) => {
   // const tuto = useSelector(tutoSelector)
   return (
     <View style={styles.container} key={index}>
-      <Image
-        source={{ uri: item.imgUrl }}
-        style={styles.image}
-      />
+      {
+        item.image
+      }
       <Text style={styles.header}>{item.title}</Text>
       <Text style={styles.body}>{item.body}</Text>
     </View>
@@ -22,14 +21,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: 'white',
+    alignItems: "center",
+    backgroundColor: 'transparent',
     borderRadius: 8,
     width: ITEM_WIDTH,
-    margin: "auto",
-  },
-  image: {
-    width: ITEM_WIDTH,
-    height: 300,
   },
   header: {
     color: "#222",
@@ -37,7 +32,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingLeft: 20,
     paddingTop: 20,
-    textAlign: "center"
+    textAlign: "center",
   },
   body: {
     textAlign: "center",
