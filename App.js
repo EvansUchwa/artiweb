@@ -4,6 +4,10 @@ import Root from './components/Root';
 import {
   PermissionsAndroid
 } from 'react-native';
+import { NotificationListener, requestUserPermission } from './src/helpers/pusNotification';
+import { useState } from 'react';
+
+
 
 async function askPermissions() {
   const granted = await PermissionsAndroid.requestMultiple([
@@ -13,9 +17,14 @@ async function askPermissions() {
     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
 
   ]);
-}
-export default function App() {
 
+  requestUserPermission()
+  NotificationListener()
+}
+
+
+export default function App() {
+  const [lol, setLol] = useState(null)
   useEffect(() => {
     askPermissions();
   }, [])
