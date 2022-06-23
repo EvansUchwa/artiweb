@@ -5,28 +5,28 @@ import {
   PermissionsAndroid
 } from 'react-native';
 import { NotificationListener, requestUserPermission } from './src/helpers/pusNotification';
-import { useState } from 'react';
 
 
 
-async function askPermissions() {
-  const granted = await PermissionsAndroid.requestMultiple([
+function askPermissions() {
+  const granted = PermissionsAndroid.requestMultiple([
     PermissionsAndroid.PERMISSIONS.CAMERA,
     PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
     PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
 
-  ]);
+  ]).then(res => { console.log(granted) })
+    .catch(err => console.log(err))
 
-  requestUserPermission()
-  NotificationListener()
+  requestUserPermission();
+  NotificationListener();
 }
 
 
 export default function App() {
-  const [lol, setLol] = useState(null)
   useEffect(() => {
-    askPermissions();
+    askPermissions()
+    // .then(() => { })
   }, [])
   return <NavigationContainer>
     <Root />

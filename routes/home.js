@@ -1,57 +1,27 @@
-import { useEffect, useState } from "react";
-import { Component } from "react";
+import { useEffect, useState, useRef } from "react";
 import WebView from "react-native-webview";
 import { getDataOnLocal } from "../utils/localStorage";
-import { Linking, Text } from "react-native";
+import { View, Linking, Text } from "react-native";
 import { Button } from "react-native";
-
-
-const handleLinks = `
-var hyperlinks = document.getElementsByTagName('a');
-     
-for (var i = 0; i < hyperlinks.length; i++) {
-            hyperlinks[i].addEventListener('click', (e) => {
-                e.preventDefault()
-                // if(e.target.href){
-                //     alert('lien artiweb')
-                // }else{
-                //     alert('Ce n'est pas artiweb')
-                // }
-                // alert('hoho '+e.target.href)
-                e.target.href.includes('artiweb.app') ? alert('inclus') : alert('ninclus pas')
-
-                return false;
-            })
-         }
-        `
-
-const monHtml = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tests bg</title>
-</head>
-<body>
-    <h1>Ma page test</h1>
-<div style="display: flex;flex-direction: column;gap: 10px 0;">
-    <a href="https://www.google.com/" target="_blank">Lien 1</a>
-    <a href="https://www.youtube.com/" > Lien 2</a>
-    <a href="https://www.facebook.com/" > Lien 3</a>
-    <a href="https://www.github.com/" target="_blank"> Lien 4</a>
-    <a href="https://www.instagram.com/"> Lien 5</a>
-    <a href="https://mon.artiweb.app/dl/ewAiAHQAIgA6ADEAMgAsACIAcwAiADoAIgBjAGwAYQBzAHMALQBuAGEAdABpAHYAZQAtAHQAYQBiAGwAZQAtAHQAeQBWAFEAMAA0AHoAZQBVADcAawA0ADYAcgA1AFkAeQBaAEYAYgAiACwAIgByACIAOgAiAFkAYQBvAC0AQQAzAFUAaQBTAEsASwBlADYAbQBKAFAAdQByAHkAcQBCAEEAIgAsACIAbgAiADoAIgBEAOkAdABhAGkAbAAgAGQAZQAgAGwAJwBhAHIAdABpAGMAbABlACIAfQA%3D" target="_blank" rel="noopener">Clique ici</a>
-</div>
-
-</body>
-</html>`
 
 
 
 function Home({ navigation }) {
-    const [urlState, setUrlState] = useState('https://mon.artiweb.app')
-    const [urlContainArtiweb, setUCA] = useState(false)
+    const [urlState, setUrlState] = useState('https://mon.artiweb.app');
+    const prevUrl = useRef();
+    const [modal, setModal] = useState(false);
+    const [modalWebView, setModalWebView] = useState('https://www.google.com/');
+    const [onw, setOnw] = useState(false)
 
+    const handleLinks = `
+    Array.from(document.querySelectorAll('a[target="_blank"]'))
+  .forEach(link => {
+    // link.removeAttribute('target')
+    link.addEventListener('click',(e)=>{
+        e.preventDefault();
+        alert('ok')
+    })
+  });`
     useEffect(() => {
         setTimeout(() => {
             getDataOnLocal('tuto')
@@ -64,27 +34,70 @@ function Home({ navigation }) {
         }, 3000);
     }, [])
 
-    function handleInternalOrExternalUr() {
-        if (urlChange) {
-            setUrlState('urlChange')
+    useEffect(() => {
+        prevUrl.current = urlState
+    }, [urlState]);
+
+    function dispatchRedirection(event) {
+        const validateInternUrls = ['artiweb.app'];
+        // 'goafricaonline.com', 'cse.google.com'
+
+        const filtered = validateInternUrls.filter(item => event.url.includes(item))
+        if (filtered.length > 0) {
+            return setUrlState(event.url)
         }
+        setUrlState('https://mon.artiweb.app')
+        // Linking.openURL(url)
+        setModal(true)
+        setModalWebView(event.url)
     }
-    return <>
+    return <View style={{ flex: 1, position: "relative" }}>
         {
             !urlState.includes('artiweb') && <Button title='Revenir en arriere' color={"#f44336"}
                 onPress={() => setUrlState('https://mon.artiweb.app')} />
         }
+        {modal && <Modal props={{ setModal, modalWebView }} />}
         <WebView source={{
             uri: urlState
+            // html: monHtml
         }}
-            javaScriptEnabled={true}
-            injectedJavaScript={handleLinks}
-            setSupportMultipleWindows={false}
-            onNavigationStateChange={(data) => setUrlState(data.url)}
+            startInLoadingState={true}
+            setSupportMultipleWindows={onw}
+            onNavigationStateChange={(event) => {
+
+                dispatchRedirection(event, urlState)
+            }}
+        // javaScriptEnabled={true}
+        // mixedContentMode={'compatibility'}
+        // injectedJavaScript={handleLinks}
+        // onMessage={(event) => { console.log(event) }}
         />
-    </>
+    </View>
 }
 
+
+function Modal({ props }) {
+    return <View style={{
+        position: "absolute", display: 'flex', alignItems: 'center', justifyContent: 'center',
+        top: 0, bottom: 0, left: 0, right: 0, zIndex: 1, backgroundColor: "rgba(0,0,0,0.5)",
+    }}>
+        <View style={{ position: "absolute", left: 20, right: 20, top: 25, bottom: 25, backgroundColor: 'white', borderRadius: 20 }}>
+            <View style={{ marginTop: 10, marginBottom: 10, display: 'flex', paddingRight: 10 }}>
+                <Text style={{
+                    textAlign: "right", marginLeft: "auto", padding: 10,
+                    backgroundColor: "#f44336", borderRadius: 10, color: 'white'
+                }}
+                    onPress={() => props.setModal(false)}>Revenir a artiweb</Text>
+            </View>
+            <WebView source={{
+                uri: props.modalWebView
+                // html: monHtml
+            }}
+                startInLoadingState={true}
+            />
+        </View>
+    </View>
+}
 
 
 export default Home;

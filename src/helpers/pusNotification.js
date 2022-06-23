@@ -1,8 +1,18 @@
 import messaging from '@react-native-firebase/messaging';
 import axios from 'axios';
 import { getDataOnLocal, storeDataToLocal } from "../../utils/localStorage"
+// import { getMacAddress, getIpAddress } from 'react-native-device-info';
 
-
+function makeid(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
+    }
+    return result;
+}
 
 
 export async function requestUserPermission() {
@@ -20,20 +30,25 @@ export async function requestUserPermission() {
 
 async function GetFCMToke() {
     let fcmToken = await getDataOnLocal('fcmToken');
+    let userNoticeId = await getDataOnLocal('userNoticeId')
     try {
         if (!fcmToken) {
             fcmToken = await messaging().getToken();
-            storeDataToLocal('fcmToken', fcmToken)
+            storeDataToLocal('fcmToken', fcmToken);
         }
-        axios.post('http://192.168.100.21:8085/fcmToken/add', { fcmToken })
+        if (!userNoticeId) {
+            userNoticeId = makeid(15)
+            storeDataToLocal('userNoticeId', userNoticeId)
+        }
+        axios.post('https://arti-admin.herokuapp.com/fcmToken/add', { fcmToken, macAddress: userNoticeId })
             .then(res => console.log("token de l'appli mis a jour"))
-            .catch(err => console.log(err))
-        console.log(fcmToken)
+            .catch(err => console.log('ca va pas'))
+
+        console.log(fcmToken + '___' + userNoticeId)
+
     } catch (error) {
         console.log(error)
     }
-
-    // messaging() .getToken()
 }
 
 
@@ -54,7 +69,7 @@ export function NotificationListener() {
                     'Notification caused app to open from quit state:',
                     remoteMessage.notification,
                 );
-                setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
+                // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
             }
         });
 
