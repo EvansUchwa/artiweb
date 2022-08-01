@@ -8,9 +8,9 @@ const CarouselCardItem = ({ item, index }) => {
   // const tuto = useSelector(tutoSelector)
   return (
     <View style={styles.container} key={index}>
-      {
+      {/* {
         item.image
-      }
+      } */}
       <Text style={styles.header}>{item.title}</Text>
       <Text style={styles.body}>{item.body}</Text>
     </View>
