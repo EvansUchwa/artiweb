@@ -32,9 +32,6 @@ export default function App() {
   useEffect(() => {
     askPermissions();
   }, [])
-  // return <View style={{ flex: 1, backgroundColor: "yellow", justifyContent: "center", alignItems: "center" }}>
-  //   <Text>Ok boomer</Text>
-  // </View>
   return <NavigationContainer>
     <Root />
   </NavigationContainer>

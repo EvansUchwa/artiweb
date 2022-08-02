@@ -4,7 +4,6 @@ import Carousel from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from '../components/CarouselCardItem'
 import data from '../components/data'
 import { Pagination } from 'react-native-snap-carousel'
-import { Button } from 'react-native'
 import { storeDataToLocal } from '../utils/localStorage'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 
