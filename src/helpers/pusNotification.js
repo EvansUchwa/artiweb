@@ -22,7 +22,6 @@ export async function requestUserPermission() {
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
-        console.log('Authorization status:', authStatus);
         GetFCMToke()
     }
 }
@@ -43,8 +42,6 @@ async function GetFCMToke() {
         axios.post('https://arti-admin.herokuapp.com/fcmToken/add', { fcmToken, macAddress: userNoticeId })
             .then(res => console.log("token de l'appli mis a jour"))
             .catch(err => console.log('ca va pas'))
-
-        console.log(fcmToken + '___' + userNoticeId)
 
     } catch (error) {
         console.log(error)
